@@ -9,6 +9,7 @@ module.exports.postArticle = (req, res, next) => {
 
   Article.create({ keyword, title, text, date, source, link, image, owner })
     .then((article) => {
+      console.log("here");
       res.send(article)
     })
     .catch(next);
