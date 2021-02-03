@@ -21,7 +21,6 @@ module.exports.createUser = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  console.log(NODE_ENV);
   return User.findUserByCredentials(email, password, next)
     .then((user) => {
       if (!user) {
