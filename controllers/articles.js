@@ -9,7 +9,6 @@ module.exports.postArticle = (req, res, next) => {
 
   Article.create({ keyword, title, text, date, source, link, image, owner })
     .then((article) => {
-      console.log("here");
       res.send(article)
     })
     .catch(next);
@@ -30,7 +29,6 @@ module.exports.deleteArticleByID = (req, res, next) => {
   Article.findById(req.params.id)
     .then(article => {
       if (article.owner == req.user._id) {
-        console.log(article.owner, req.user._id);
         Article.findByIdAndRemove(req.params.id)
           .then(res.send({ message: 'The articles was removed' }))
       } else {
