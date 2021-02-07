@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const auth = require('./middlewares/auth');
 const cors = require('cors');
-const { requestLogger, errorLogger } = require('./middlewares/logger'); 
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 const app = express();
 const { errors } = require('celebrate');
@@ -13,12 +13,19 @@ require('dotenv').config();
 const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles');
 const { login, createUser } = require('./controllers/users');
+const { NODE_ENV, MONGO_ADDRESS } = process.env;
 
 app.use(cors());
 app.options('*', cors());
 
+const mobdo_db = "";
+if (NODE_ENV === 'production') {
+  mongo_db = MONGO_ADDRESS;
+} else {
+  mongodb = 'mongodb://localhost:27017/aroundb';
+}
 
-mongoose.connect('mongodb://localhost:27017/aroundb', {
+mongoose.connect(mongo_db, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -34,7 +41,7 @@ app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Server will crash now');
   }, 0);
-}); 
+});
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -62,7 +69,7 @@ app.use(errors());
 app.use(((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   next();
-})); 
+}));
 
 app.use((err, req, res, next) => {
   if (err.name === 'MongoError' && err.code === 11000) {
@@ -83,7 +90,7 @@ app.use((err, req, res, next) => {
         ? 'An error occurred on the server'
         : message
     });
-}); 
+});
 
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`)

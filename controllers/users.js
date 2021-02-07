@@ -28,10 +28,10 @@ module.exports.login = (req, res, next) => {
       };
       if (NODE_ENV === 'production') {
         const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
-        res.send(token);
+        res.send({ data: token });
       } else {
         const token = jwt.sign({ _id: user._id }, "secret-key", { expiresIn: '7d' });
-        res.send(token);
+        res.send({ data: token });
       }
     })
     .catch(next);

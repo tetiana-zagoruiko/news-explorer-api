@@ -35,6 +35,8 @@ const articleSchema = new mongoose.Schema({
     ref: 'user',
     required: true,
   },
+}, {
+  versionKey: false
 });
 
 articleSchema.methods.toJSON = function () {

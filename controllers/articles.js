@@ -28,6 +28,9 @@ module.exports.getAllArticles = (req, res, next) => {
 module.exports.deleteArticleByID = (req, res, next) => {
   Article.findById(req.params.id)
     .then(article => {
+      if (!article) {
+        throw new NotFoundError('No article found');
+      }
       if (article.owner == req.user._id) {
         Article.findByIdAndRemove(req.params.id)
           .then(res.send({ message: 'The articles was removed' }))
