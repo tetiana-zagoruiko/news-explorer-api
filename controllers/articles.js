@@ -2,6 +2,7 @@ const express = require('express');
 const Article = require('../models/article');
 const {NoRightsError} = require('../errors/errors');
 const {NotFoundError} = require('../errors/errors');
+const {InvalidData} = require('../errors/errors');
 
 module.exports.postArticle = (req, res, next) => {
   const { keyword, title, text, date, source, link, image } = req.body;
@@ -9,6 +10,9 @@ module.exports.postArticle = (req, res, next) => {
 
   Article.create({ keyword, title, text, date, source, link, image, owner })
     .then((article) => {
+      if (!article) {
+        throw new InvalidData('No article was created');
+      }
       res.send(article)
     })
     .catch(next);

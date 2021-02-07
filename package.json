@@ -31,6 +31,7 @@
     "mongoose": "^5.11.14",
     "mongoose-type-email": "^1.1.2",
     "mongoose-type-url": "^2.1.0",
+    "mongoose-validator": "^2.1.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {

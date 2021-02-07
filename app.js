@@ -9,6 +9,7 @@ const app = express();
 const { errors } = require('celebrate');
 const { celebrate, Joi } = require('celebrate');
 const {NotFoundError} = require('./errors/errors');
+const { InvalidData } = require('./errors/errors');
 require('dotenv').config();
 const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles');
@@ -18,14 +19,7 @@ const { NODE_ENV, MONGO_ADDRESS } = process.env;
 app.use(cors());
 app.options('*', cors());
 
-const mobdo_db = "";
-if (NODE_ENV === 'production') {
-  mongo_db = MONGO_ADDRESS;
-} else {
-  mongodb = 'mongodb://localhost:27017/aroundb';
-}
-
-mongoose.connect(mongo_db, {
+mongoose.connect(NODE_ENV === 'production' ? MONGO_ADDRESS : 'mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -72,6 +66,16 @@ app.use(((req, res, next) => {
 }));
 
 app.use((err, req, res, next) => {
+  if (err.name === "ValidationError") {
+    const { statusCode = 400, message } = err;
+    res
+      .status(400)
+      .send({
+        message: statusCode === 400
+          ? 'Invalid data passed'
+          : message
+      });
+  };
   if (err.name === 'MongoError' && err.code === 11000) {
     const { statusCode = 409, message } = err;
     res

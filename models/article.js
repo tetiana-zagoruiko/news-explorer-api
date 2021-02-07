@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 require('mongoose-type-url');
+const validate = require('mongoose-validator')
+
+const UrlValidator = [
+  validate({
+    validator: 'isURL'
+  })
+]
 
 const articleSchema = new mongoose.Schema({
   keyword: {
@@ -25,10 +32,12 @@ const articleSchema = new mongoose.Schema({
   link: {
     type: mongoose.SchemaTypes.Url,
     required: true,
+    validate: UrlValidator
   },
   image: {
     type: mongoose.SchemaTypes.Url,
     required: true,
+    validate: UrlValidator
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
