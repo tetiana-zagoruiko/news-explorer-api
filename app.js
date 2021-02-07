@@ -19,7 +19,7 @@ const { NODE_ENV, MONGO_ADDRESS } = process.env;
 app.use(cors());
 app.options('*', cors());
 
-mongoose.connect(NODE_ENV === 'production' ? MONGO_ADDRESS : 'mongodb://localhost:27017/aroundb', {
+mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
