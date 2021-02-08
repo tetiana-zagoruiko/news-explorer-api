@@ -9,7 +9,6 @@ const app = express();
 const { errors } = require('celebrate');
 const { celebrate, Joi } = require('celebrate');
 const {NotFoundError} = require('./errors/errors');
-const { InvalidData } = require('./errors/errors');
 require('dotenv').config();
 const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles');
@@ -19,7 +18,7 @@ const { NODE_ENV, MONGO_ADDRESS } = process.env;
 app.use(cors());
 app.options('*', cors());
 
-mongoose.connect('mongodb://localhost:27017/aroundb', {
+mongoose.connect(NODE_ENV === 'production' ? MONGO_ADDRESS : 'mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
