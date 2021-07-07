@@ -1,0 +1,15 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "rules": {
+        "eslint-disable": "off",
+        "eslint-disable-line": "off",
+        "eslint-disable-next-line": "off"
+    }
+}
